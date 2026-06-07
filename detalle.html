@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Completo Pamela y Gonzalo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #faf7f2;
+      color: #2d2a26;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container { max-width: 640px; margin: 0 auto; padding: 24px 20px 80px; }
+    .back-link { font-size: 13px; color: #8a8279; text-decoration: none; display: inline-block; margin-bottom: 16px; }
+    .back-link:hover { color: #2d2a26; }
+    .hero {
+      position: relative; width: 100%; height: 120px; border-radius: 14px; overflow: hidden; margin-bottom: 24px;
+      background: linear-gradient(135deg, #6b5d4d 0%, #5c6b52 60%, #3d4a36 100%);
+    }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 70%, rgba(180,140,160,0.25) 0%, transparent 60%); }
+    .hero-content { position: absolute; bottom: 18px; left: 24px; right: 24px; }
+    .hero h1 { color: white; font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: normal; font-style: italic; text-shadow: 0 1px 4px rgba(0,0,0,0.2); margin-bottom: 2px; }
+    .hero .subtitle { color: rgba(255,255,255,0.65); font-size: 13px; }
+
+    .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 24px; }
+    .metric-card {
+      background: white; border: 1px solid #e8e0d6; border-radius: 10px; padding: 14px 10px; text-align: center;
+    }
+    .metric-val { font-family: Georgia, serif; font-size: 20px; margin-bottom: 2px; }
+    .metric-lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #8a8279; }
+    .metric-note { font-size: 10px; color: #a89f94; margin-top: 2px; }
+
+    details { margin-bottom: 12px; }
+    summary {
+      background: white; border: 1px solid #e8e0d6; border-radius: 10px; padding: 16px 20px;
+      cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center;
+      font-family: Georgia, serif; font-size: 17px; transition: border-color 0.15s;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; font-family: sans-serif; font-size: 20px; color: #8a8279; transition: transform 0.2s; }
+    details[open] summary::after { content: '−'; }
+    details[open] summary { border-radius: 10px 10px 0 0; border-bottom-color: #f0ebe4; }
+    .section-content {
+      background: white; border: 1px solid #e8e0d6; border-top: none; border-radius: 0 0 10px 10px; padding: 20px;
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+    th { text-align: left; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #8a8279; padding: 8px 10px; border-bottom: 2px solid #e8e0d6; }
+    td { padding: 8px 10px; border-bottom: 1px solid #f0ebe4; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+
+    .note { font-size: 13px; color: #8a8279; margin-bottom: 12px; }
+    .note strong { color: #2d2a26; }
+
+    .day-block { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f0ebe4; }
+    .day-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .day-name { font-family: Georgia, serif; font-size: 16px; margin-bottom: 8px; }
+    .day-badge { font-size: 11px; color: #8a8279; font-family: sans-serif; margin-left: 8px; }
+    .meal-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; margin-top: 10px; }
+    .meal-desc { font-size: 13px; color: #8a8279; margin-bottom: 6px; }
+    .portion-row { font-size: 13px; padding: 6px 10px; background: #faf7f2; border-radius: 5px; margin-bottom: 4px; }
+    .portion-row span { font-weight: 600; color: #8a8279; margin-right: 6px; }
+
+    .exercise-step { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0ebe4; }
+    .exercise-step:last-child { border-bottom: none; }
+    .step-num { width: 24px; height: 24px; border-radius: 50%; background: #f0ebe4; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: #6b5d4d; flex-shrink: 0; }
+    .step-info { flex: 1; }
+    .step-info strong { font-size: 13px; }
+    .step-info em { font-style: normal; font-size: 12px; color: #6b5d4d; float: right; }
+    .step-info p { font-size: 12px; color: #8a8279; margin-top: 2px; }
+
+    .list-item { font-size: 13px; color: #2d2a26; padding: 4px 0; }
+    .list-bullet { color: #8a8279; margin-right: 6px; }
+
+    @media print { body { background: white; } .back-link, .hero { display: none; } details { break-inside: avoid; } details[open] { break-inside: auto; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="back-link">&#8592; Volver a la guia diaria</a>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Plan Completo</h1>
+      <p class="subtitle">Pamela & Gonzalo · Inicio 11 jun 2026</p>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric-card"><div class="metric-val">2/4</div><div class="metric-lbl">Carbos</div><div class="metric-note">P / G</div></div>
+    <div class="metric-card"><div class="metric-val">8/10</div><div class="metric-lbl">Prot</div><div class="metric-note">P / G</div></div>
+    <div class="metric-card"><div class="metric-val">3</div><div class="metric-lbl">Frutas</div><div class="metric-note">ambos</div></div>
+    <div class="metric-card"><div class="metric-val">2</div><div class="metric-lbl">Grasas</div><div class="metric-note">ambos</div></div>
+  </div>
+
+  <!-- PORCIONES -->
+  <details>
+    <summary>Porciones de Referencia</summary>
+    <div class="section-content">
+      <table>
+        <thead><tr><th>Grupo</th><th>P</th><th>G</th><th>1 porcion</th></tr></thead>
+        <tbody>
+          <tr><td>Carbohidratos</td><td>2</td><td>4</td><td>3/4 taza arroz/quinoa/pasta o 1 papa chica</td></tr>
+          <tr><td>Frutas</td><td>3</td><td>3</td><td>1 platano · 1 taza berries · 10 uvas · 2 mandarinas</td></tr>
+          <tr><td>Verduras</td><td>1</td><td>1</td><td>1 tomate o 1 taza zanahoria</td></tr>
+          <tr><td>Proteinas</td><td>8</td><td>10</td><td>1 huevo · ~40 g carne/pollo · 1/2 scoop whey</td></tr>
+          <tr><td>Lacteos</td><td>3</td><td>3</td><td>1 yogurt kefir, descremado o proteina</td></tr>
+          <tr><td>Grasas</td><td>2</td><td>2</td><td>2 cdas aceite oliva · 1/2 palta · 1 cda mant. mani</td></tr>
+        </tbody>
+      </table>
+      <p class="note"><strong>Distribucion estandar (Mie-Dom):</strong></p>
+      <table>
+        <thead><tr><th>Comida</th><th>Pamela</th><th>Gonzalo</th></tr></thead>
+        <tbody>
+          <tr><td>Desayuno</td><td>4 prot · 1 fruta · 1 lacteo · 1 grasa</td><td>4 prot · 1 carbo · 1 fruta · 1 lacteo · 1 grasa</td></tr>
+          <tr><td>Almuerzo</td><td>2 prot · 1 carbo · 1 fruta · 1 verdura · 1 grasa · 1 lacteo</td><td>3 prot · 2 carbo · 1 fruta · 1 verdura · 1 grasa · 1 lacteo</td></tr>
+          <tr><td>Cena</td><td>2 prot · 1 carbo · 1 fruta · 1 lacteo</td><td>3 prot · 1 carbo · 1 fruta · 1 lacteo</td></tr>
+        </tbody>
+      </table>
+      <p class="note"><strong>Lun/Mar Pamela:</strong> Desayuno +1 carbo · Almuerzo = whey + yogurt · Cena = 3 prot + 1 carbo + 2 fruta + 1 verdura + 1 grasa + 1 lacteo</p>
+      <p class="note"><span class="list-bullet">•</span>Pamela come de todo. Gonzalo no come berries.</p>
+      <p class="note"><span class="list-bullet">•</span>Mantequilla de mani solo para Gonzalo. Ambos usan aceite oliva y palta.</p>
+      <p class="note"><span class="list-bullet">•</span>Whey solo Pamela, almuerzo rapido lunes y martes.</p>
+      <p class="note"><span class="list-bullet">•</span>Verduras libres: zapallo italiano, champinones, pepino, rucula, berros, apio, pimenton, cebolla, acelga, espinaca, repollo, lechuga.</p>
+    </div>
+  </details>
+
+  <!-- DESAYUNO -->
+  <details>
+    <summary>Desayuno por Dia</summary>
+    <div class="section-content">
+      <p class="note"><strong>Base:</strong> 4 huevos revueltos + yogurt. Gonzalo agrega 3/4 taza carbo siempre. Pamela agrega carbo solo lunes y martes.</p>
+      <table>
+        <thead><tr><th>Dia</th><th>Pamela</th><th>Gonzalo</th></tr></thead>
+        <tbody>
+          <tr><td>Lun</td><td>4 huevos + 3/4 arroz + frambuesas + 1/2 palta + yogurt</td><td>4 huevos + 3/4 arroz + platano + mant. mani + yogurt</td></tr>
+          <tr><td>Mar</td><td>4 huevos + 3/4 quinoa + platano + 1/2 palta + yogurt</td><td>4 huevos + 3/4 quinoa + uvas (10u) + 1/2 palta + yogurt</td></tr>
+          <tr><td>Mie</td><td>4 huevos + arandanos + 1/2 palta + yogurt</td><td>4 huevos + 3/4 arroz + mandarinas (2u) + mant. mani + yogurt</td></tr>
+          <tr><td>Jue</td><td>4 huevos + frutillas + 1/2 palta + yogurt</td><td>4 huevos + 3/4 quinoa + platano + 1/2 palta + yogurt</td></tr>
+          <tr><td>Vie</td><td>4 huevos + frambuesas + 1/2 palta + yogurt</td><td>4 huevos + 3/4 arroz + uvas (10u) + mant. mani + yogurt</td></tr>
+          <tr><td>Sab</td><td>4 huevos + mandarinas (2u) + 1/2 palta + yogurt</td><td>4 huevos + 3/4 quinoa + platano + 1/2 palta + yogurt</td></tr>
+          <tr><td>Dom</td><td>4 huevos + frutillas + 1/2 palta + yogurt</td><td>4 huevos + 3/4 arroz + mandarinas (2u) + mant. mani + yogurt</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <!-- MENÚ SEMANAL -->
+  <details>
+    <summary>Almuerzo y Cena</summary>
+    <div class="section-content">
+
+      <div class="day-block">
+        <div class="day-name">Lunes <span class="day-badge">Dia 1</span></div>
+        <div class="meal-title">Almuerzo · Pollo a la plancha con quinoa y ensalada verde</div>
+        <div class="meal-desc">Lechuga, tomate, pepino. Aceite de oliva.</div>
+        <div class="portion-row"><span>P</span> 1/2 scoop whey + yogurt (almuerzo rapido)</div>
+        <div class="portion-row"><span>G</span> ~120 g pollo + 1 1/2 taza quinoa + 10 uvas + yogurt</div>
+        <div class="meal-title">Cena · Carne molida con zapallo italiano, pimenton y cebolla</div>
+        <div class="portion-row"><span>P</span> ~120 g carne + 3/4 arroz + frutillas + platano + tomate + aceite oliva + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g carne + 3/4 arroz + 2 mandarinas + yogurt</div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">Martes <span class="day-badge">Dia 2</span></div>
+        <div class="meal-title">Almuerzo · Lomo liso con pasta sin gluten</div>
+        <div class="meal-desc">Ensalada de rucula y zanahoria. Aceite de oliva.</div>
+        <div class="portion-row"><span>P</span> 1/2 scoop whey + yogurt (almuerzo rapido)</div>
+        <div class="portion-row"><span>G</span> ~120 g lomo + 1 1/2 taza pasta + 2 mandarinas + yogurt</div>
+        <div class="meal-title">Cena · Pollo al horno con papas chicas</div>
+        <div class="meal-desc">Ensalada de berros, tomate y pepino.</div>
+        <div class="portion-row"><span>P</span> ~120 g pollo + 1 papa + arandanos + 2 mandarinas + zanahoria + 1/2 palta + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g pollo + 1 papa + platano + yogurt</div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">Miercoles <span class="day-badge">Dia 3</span></div>
+        <div class="meal-title">Almuerzo · Posta rosada con arroz basmati</div>
+        <div class="meal-desc">Ensalada de repollo y zanahoria. Aceite de oliva.</div>
+        <div class="portion-row"><span>P</span> ~80 g posta + 3/4 arroz + 2 mandarinas + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g posta + 1 1/2 arroz + platano + yogurt</div>
+        <div class="meal-title">Cena · Pollo salteado con cebolla, pimenton y zapallo italiano</div>
+        <div class="portion-row"><span>P</span> ~80 g pollo + 3/4 pasta sin gluten + platano + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g pollo + 3/4 pasta sin gluten + 10 uvas + yogurt</div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">Jueves <span class="day-badge">Dia 4</span></div>
+        <div class="meal-title">Almuerzo · Pollo ganso con quinoa</div>
+        <div class="meal-desc">Ensalada de lechuga, pepino y apio. Aceite de oliva.</div>
+        <div class="portion-row"><span>P</span> ~80 g pollo ganso + 3/4 quinoa + frutillas + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g pollo ganso + 1 1/2 quinoa + 10 uvas + yogurt</div>
+        <div class="meal-title">Cena · Carne molida con zapallo italiano y cebolla</div>
+        <div class="portion-row"><span>P</span> ~80 g carne + 3/4 arroz + platano + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g carne + 3/4 arroz + 2 mandarinas + yogurt</div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">Viernes <span class="day-badge">Dia 5</span></div>
+        <div class="meal-title">Almuerzo · Filete a la plancha con papas</div>
+        <div class="meal-desc">Ensalada de rucula, pimenton y tomate. Aceite de oliva.</div>
+        <div class="portion-row"><span>P</span> ~80 g filete + 1 papa + 2 mandarinas + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g filete + 2 papas + platano + yogurt</div>
+        <div class="meal-title">Cena · Pollo con quinoa y espinaca salteada con champinones</div>
+        <div class="portion-row"><span>P</span> ~80 g pollo + 3/4 quinoa + frambuesas + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g pollo + 3/4 quinoa + 2 mandarinas + yogurt</div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">Sabado <span class="day-badge">Dia 6</span></div>
+        <div class="meal-title">Almuerzo · Posta negra con pasta sin gluten</div>
+        <div class="meal-desc">Ensalada de lechuga, tomate y pepino. Aceite de oliva.</div>
+        <div class="portion-row"><span>P</span> ~80 g posta + 3/4 pasta + platano + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g posta + 1 1/2 pasta + 2 mandarinas + yogurt</div>
+        <div class="meal-title">Cena · Carne molida tartaro con papas y ensalada de rucula y zanahoria</div>
+        <div class="portion-row"><span>P</span> ~80 g carne + 1 papa + arandanos + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g carne + 1 papa + 10 uvas + yogurt</div>
+      </div>
+
+      <div class="day-block">
+        <div class="day-name">Domingo <span class="day-badge">Dia 7</span></div>
+        <div class="meal-title">Almuerzo · Pollo al horno con arroz basmati</div>
+        <div class="meal-desc">Ensalada de berros, tomate y pepino. Aceite de oliva.</div>
+        <div class="portion-row"><span>P</span> ~80 g pollo + 3/4 arroz + frutillas + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g pollo + 1 1/2 arroz + 10 uvas + yogurt</div>
+        <div class="meal-title">Cena · Lomo liso con pasta sin gluten y verduras salteadas</div>
+        <div class="meal-desc">Zapallo italiano, pimenton y cebolla.</div>
+        <div class="portion-row"><span>P</span> ~80 g lomo + 3/4 pasta + platano + yogurt</div>
+        <div class="portion-row"><span>G</span> ~120 g lomo + 3/4 pasta + 2 mandarinas + yogurt</div>
+      </div>
+
+    </div>
+  </details>
+
+  <!-- LISTA DE COMPRAS -->
+  <details>
+    <summary>Lista de Compras Semanal</summary>
+    <div class="section-content">
+      <p class="note" style="margin-bottom:16px"><strong>Proteinas</strong></p>
+      <table>
+        <thead><tr><th>Producto</th><th>Cantidad</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td>Huevos</td><td>5 docenas</td><td>8 diarios (4+4)</td></tr>
+          <tr><td>Pechuga de pollo</td><td>1.5 kg</td><td>4 dias</td></tr>
+          <tr><td>Pollo ganso</td><td>500 g</td><td>Jueves</td></tr>
+          <tr><td>Lomo liso</td><td>500 g</td><td>Mar y Dom</td></tr>
+          <tr><td>Filete</td><td>400 g</td><td>Viernes</td></tr>
+          <tr><td>Posta rosada</td><td>500 g</td><td>Miercoles</td></tr>
+          <tr><td>Posta negra</td><td>500 g</td><td>Sabado</td></tr>
+          <tr><td>Carne molida</td><td>800 g</td><td>Lun, Jue, Sab</td></tr>
+          <tr><td>Whey protein</td><td>Minimo</td><td>Solo P lun/mar</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-bottom:16px"><strong>Carbohidratos</strong></p>
+      <table>
+        <thead><tr><th>Producto</th><th>Cantidad</th></tr></thead>
+        <tbody>
+          <tr><td>Arroz basmati</td><td>1.5 kg</td></tr>
+          <tr><td>Quinoa</td><td>1 kg</td></tr>
+          <tr><td>Pasta sin gluten</td><td>750 g</td></tr>
+          <tr><td>Papas chicas</td><td>1 kg</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-bottom:16px"><strong>Frutas</strong></p>
+      <table>
+        <thead><tr><th>Producto</th><th>Cantidad</th><th>Para</th></tr></thead>
+        <tbody>
+          <tr><td>Platanos</td><td>10 u</td><td>Ambos</td></tr>
+          <tr><td>Uvas</td><td>2 racimos</td><td>Ambos</td></tr>
+          <tr><td>Mandarinas</td><td>~20 u</td><td>Ambos</td></tr>
+          <tr><td>Frambuesas</td><td>500 g</td><td>Solo P</td></tr>
+          <tr><td>Frutillas</td><td>500 g</td><td>Solo P</td></tr>
+          <tr><td>Arandanos</td><td>500 g</td><td>Solo P</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-bottom:16px"><strong>Lacteos y grasas</strong></p>
+      <table>
+        <thead><tr><th>Producto</th><th>Cantidad</th></tr></thead>
+        <tbody>
+          <tr><td>Yogurt kefir / descremado / proteina</td><td>~6 litros</td></tr>
+          <tr><td>Aceite de oliva</td><td>500 ml</td></tr>
+          <tr><td>Paltas chicas</td><td>8 u</td></tr>
+          <tr><td>Mantequilla de mani</td><td>1 frasco</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-bottom:16px"><strong>Verduras</strong> (con porcion + libres)</p>
+      <table>
+        <thead><tr><th>Producto</th><th>Cantidad</th><th>Tipo</th></tr></thead>
+        <tbody>
+          <tr><td>Tomates</td><td>10 u</td><td>Porcion</td></tr>
+          <tr><td>Zanahorias</td><td>1 kg</td><td>Porcion</td></tr>
+          <tr><td>Zapallo italiano</td><td>3 u</td><td>Libre</td></tr>
+          <tr><td>Champinones</td><td>500 g</td><td>Libre</td></tr>
+          <tr><td>Pepinos</td><td>3 u</td><td>Libre</td></tr>
+          <tr><td>Rucula</td><td>2 bolsas</td><td>Libre</td></tr>
+          <tr><td>Berros</td><td>2 bolsas</td><td>Libre</td></tr>
+          <tr><td>Apio</td><td>1 u</td><td>Libre</td></tr>
+          <tr><td>Pimenton</td><td>5 u</td><td>Libre</td></tr>
+          <tr><td>Cebollas</td><td>5 u</td><td>Libre</td></tr>
+          <tr><td>Acelga</td><td>1 atado</td><td>Libre</td></tr>
+          <tr><td>Espinaca</td><td>2 bolsas</td><td>Libre</td></tr>
+          <tr><td>Repollo</td><td>1 u</td><td>Libre</td></tr>
+          <tr><td>Lechuga</td><td>2 u</td><td>Libre</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <!-- RUTINA DE EJERCICIO -->
+  <details>
+    <summary>Rutina de Ejercicio · 20:00</summary>
+    <div class="section-content">
+      <p class="note"><strong>30 min diarios, lunes a viernes. 150 min/semana desde la semana 1.</strong> Lun/Mie/Vie = remadora. Mar/Jue = sentadillas. Sab/Dom = descanso.</p>
+
+      <p class="note" style="margin-top:20px"><strong>Fase 1 · Semanas 1-2 · Adaptacion</strong></p>
+      <p class="note">Remadora (Lun/Mie/Vie):</p>
+      <div class="exercise-step"><div class="step-num">1</div><div class="step-info"><strong>Calentamiento</strong><em>5 min</em><p>Remo suave, soltar el cuerpo</p></div></div>
+      <div class="exercise-step"><div class="step-num">2</div><div class="step-info"><strong>Bloque principal</strong><em>20 min</em><p>Remo continuo, ritmo comodo (18-20 paladas/min)</p></div></div>
+      <div class="exercise-step"><div class="step-num">3</div><div class="step-info"><strong>Vuelta a la calma</strong><em>5 min</em><p>Remo suave + estiramientos</p></div></div>
+      <p class="note" style="margin-top:12px">Sentadillas (Mar/Jue):</p>
+      <table>
+        <thead><tr><th>Ejercicio</th><th>Series</th><th>Desc.</th></tr></thead>
+        <tbody>
+          <tr><td>Calentamiento</td><td>5 min</td><td>-</td></tr>
+          <tr><td>Sentadilla al aire</td><td>3x10</td><td>60s</td></tr>
+          <tr><td>Estocadas (c/pierna)</td><td>3x8</td><td>60s</td></tr>
+          <tr><td>Wall sit</td><td>3x20s</td><td>60s</td></tr>
+          <tr><td>Estiramientos</td><td>5 min</td><td>-</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-top:20px"><strong>Fase 2 · Semanas 3-4 · Subir ritmo</strong></p>
+      <p class="note">Remadora: Moderado (20-22 pal/min) con 3x1 min piques + 2 min recuperacion.</p>
+      <p class="note">Sentadillas:</p>
+      <table>
+        <thead><tr><th>Ejercicio</th><th>Series</th><th>Desc.</th></tr></thead>
+        <tbody>
+          <tr><td>Sentadilla al aire</td><td>4x12</td><td>45s</td></tr>
+          <tr><td>Estocadas (c/pierna)</td><td>3x10</td><td>45s</td></tr>
+          <tr><td>Sentadilla sumo</td><td>3x12</td><td>45s</td></tr>
+          <tr><td>Wall sit</td><td>3x30s</td><td>45s</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-top:20px"><strong>Fase 3 · Semanas 5-6 · Intervalos</strong></p>
+      <p class="note">Remadora: 2 min fuerte / 1 min suave x 6-7 rondas.</p>
+      <p class="note">Sentadillas:</p>
+      <table>
+        <thead><tr><th>Ejercicio</th><th>Series</th><th>Desc.</th></tr></thead>
+        <tbody>
+          <tr><td>Sentadilla al aire</td><td>4x15</td><td>30s</td></tr>
+          <tr><td>Estocadas (c/pierna)</td><td>4x12</td><td>30s</td></tr>
+          <tr><td>Sentadilla sumo</td><td>3x15</td><td>30s</td></tr>
+          <tr><td>Wall sit</td><td>3x45s</td><td>30s</td></tr>
+          <tr><td>Sentadilla con salto</td><td>3x8</td><td>45s</td></tr>
+        </tbody>
+      </table>
+
+      <p class="note" style="margin-top:20px"><strong>Fase 4 · Semana 7+ · Intensidad alta</strong></p>
+      <p class="note">Remadora: 1 min maximo / 1 min recuperacion x 10 rondas.</p>
+      <p class="note">Sentadillas:</p>
+      <table>
+        <thead><tr><th>Ejercicio</th><th>Series</th><th>Desc.</th></tr></thead>
+        <tbody>
+          <tr><td>Sentadilla al aire</td><td>4x20</td><td>30s</td></tr>
+          <tr><td>Estocadas (c/pierna)</td><td>4x15</td><td>30s</td></tr>
+          <tr><td>Sentadilla sumo</td><td>4x15</td><td>30s</td></tr>
+          <tr><td>Wall sit</td><td>3x60s</td><td>30s</td></tr>
+          <tr><td>Sentadilla con salto</td><td>4x10</td><td>45s</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+</div>
+</body>
+</html>
