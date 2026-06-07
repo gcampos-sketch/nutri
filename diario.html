@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía Diaria Pamela y Gonzalo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #faf7f2;
+      color: #2d2a26;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
+    }
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #5c6b52 0%, #3d4a36 40%, #6b5d4d 100%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 80% 20%, rgba(180,140,160,0.3) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(120,140,100,0.2) 0%, transparent 50%);
+    }
+    .hero-content {
+      position: absolute;
+      bottom: 20px;
+      left: 24px;
+      right: 24px;
+    }
+    .hero h1 {
+      color: white;
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 28px;
+      font-weight: normal;
+      font-style: italic;
+      letter-spacing: -0.5px;
+      margin-bottom: 2px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .hero .subtitle {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+    .back-link {
+      font-size: 13px;
+      color: #8a8279;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .back-link:hover { color: #2d2a26; }
+    .phase-section { margin-bottom: 20px; }
+    .phase-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #8a8279;
+      margin-bottom: 8px;
+    }
+    .phase-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .phase-btn {
+      padding: 8px 14px;
+      border: 1px solid #d9d2c9;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #2d2a26;
+      transition: all 0.15s;
+      line-height: 1.3;
+    }
+    .phase-btn span {
+      display: block;
+      font-size: 11px;
+      color: #8a8279;
+    }
+    .phase-btn.active {
+      background: #2d2a26;
+      color: white;
+      border-color: #2d2a26;
+    }
+    .phase-btn.active span { color: rgba(255,255,255,0.6); }
+    .phase-btn:hover:not(.active) { border-color: #8a8279; }
+    .day-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .day-tab {
+      flex: 1;
+      min-width: 52px;
+      padding: 10px 6px;
+      border: 1px solid #d9d2c9;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: #2d2a26;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .day-tab.active {
+      background: #2d2a26;
+      color: white;
+      border-color: #2d2a26;
+    }
+    .day-tab:hover:not(.active) { border-color: #8a8279; }
+    .card {
+      background: white;
+      border: 1px solid #e8e0d6;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 12px;
+    }
+    .card-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #8a8279;
+      margin-bottom: 6px;
+    }
+    .card-title {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: #8a8279;
+      margin-bottom: 14px;
+    }
+    .portions { display: flex; flex-direction: column; gap: 8px; }
+    .portion {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      font-size: 14px;
+      padding: 8px 12px;
+      background: #faf7f2;
+      border-radius: 6px;
+    }
+    .portion-name {
+      font-weight: 600;
+      font-size: 13px;
+      width: 18px;
+      flex-shrink: 0;
+      color: #8a8279;
+    }
+    .card-exercise { border-color: #c9bfb0; }
+    .card-exercise .card-label { color: #6b5d4d; }
+    .exercise-time {
+      font-size: 13px;
+      color: #6b5d4d;
+      font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0ebe4;
+    }
+    .step:last-child { border-bottom: none; padding-bottom: 0; }
+    .step:first-child { padding-top: 0; }
+    .step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #f0ebe4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b5d4d;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-content { flex: 1; }
+    .step-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+    .step-name { font-weight: 600; font-size: 14px; }
+    .step-duration {
+      font-size: 13px;
+      color: #6b5d4d;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .step-detail { font-size: 13px; color: #8a8279; }
+    .rest-card {
+      background: #faf7f2;
+      border: 1px dashed #d9d2c9;
+      text-align: center;
+      padding: 32px 20px;
+    }
+    .rest-card .card-label { margin-bottom: 4px; }
+    .rest-card .card-title { font-size: 16px; color: #8a8279; }
+    .card-note {
+      font-size: 12px;
+      color: #8a8279;
+      margin-top: 10px;
+      font-style: italic;
+    }
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #8a8279;
+      margin-bottom: 20px;
+      padding: 10px 14px;
+      background: white;
+      border: 1px solid #e8e0d6;
+      border-radius: 8px;
+    }
+    .status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #8ab57e;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .status-bar .status-left { display: flex; align-items: center; }
+    .day-tab.today { box-shadow: inset 0 -3px 0 #8ab57e; }
+    @media print {
+      body { background: white; }
+      .phase-section, .day-tabs, .back-link, .hero { display: none; }
+      .card { break-inside: avoid; border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <a href="index.html" class="back-link">&#8592; Plan completo</a>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h1>Guia Diaria</h1>
+      <p class="subtitle">Pamela & Gonzalo</p>
+    </div>
+  </div>
+
+  <div class="status-bar">
+    <span class="status-left"><span class="status-dot"></span><span id="statusWeek">Semana 1</span></span>
+    <span id="statusDate">Inicio: 11 jun 2026</span>
+  </div>
+
+  <div class="phase-section">
+    <div class="phase-label">Fase de ejercicio</div>
+    <div class="phase-row">
+      <button class="phase-btn active" data-phase="0">Fase 1<span>Sem 1–2</span></button>
+      <button class="phase-btn" data-phase="1">Fase 2<span>Sem 3–4</span></button>
+      <button class="phase-btn" data-phase="2">Fase 3<span>Sem 5–6</span></button>
+      <button class="phase-btn" data-phase="3">Fase 4<span>Sem 7+</span></button>
+    </div>
+  </div>
+
+  <nav class="day-tabs">
+    <button class="day-tab active" data-day="0">Lun</button>
+    <button class="day-tab" data-day="1">Mar</button>
+    <button class="day-tab" data-day="2">Mie</button>
+    <button class="day-tab" data-day="3">Jue</button>
+    <button class="day-tab" data-day="4">Vie</button>
+    <button class="day-tab" data-day="5">Sab</button>
+    <button class="day-tab" data-day="6">Dom</button>
+  </nav>
+
+  <div id="content"></div>
+</div>
+
+<script>
+var START_DATE = new Date(2026, 5, 11);
+
+function detectDayAndWeek() {
+  var today = new Date();
+  today.setHours(0, 0, 0, 0);
+  var start = new Date(START_DATE);
+  start.setHours(0, 0, 0, 0);
+
+  var diffMs = today.getTime() - start.getTime();
+  var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  var weekNum = Math.max(1, Math.floor(diffDays / 7) + 1);
+
+  var phase = 0;
+  if (weekNum >= 7) phase = 3;
+  else if (weekNum >= 5) phase = 2;
+  else if (weekNum >= 3) phase = 1;
+
+  var jsDay = today.getDay();
+  var tabIndex = (jsDay + 6) % 7;
+
+  var statusEl = document.getElementById('statusWeek');
+  if (diffDays < 0) {
+    statusEl.textContent = 'Comienza el 11 de junio';
+  } else {
+    statusEl.textContent = 'Semana ' + weekNum + ' · Fase ' + (phase + 1);
+  }
+
+  return { tabIndex: tabIndex, phase: phase, weekNum: weekNum, started: diffDays >= 0 };
+}
+
+var autoDetect = detectDayAndWeek();
+
+var days = [
+  {
+    name: 'Lunes', wheyDay: true,
+    almuerzo: {
+      title: 'Pollo a la plancha con quinoa y ensalada verde',
+      desc: 'Ensalada: lechuga, tomate, pepino. Alinar con aceite de oliva.',
+      p: '1/2 scoop whey + yogurt (almuerzo rapido)',
+      g: '~120 g pollo + 1 1/2 taza quinoa + 10 uvas + yogurt'
+    },
+    cena: {
+      title: 'Carne molida salteada con zapallo italiano, pimenton y cebolla',
+      desc: '',
+      p: '~120 g carne + 3/4 taza arroz + 1 taza frutillas + 1 platano + tomate + aceite oliva + yogurt',
+      g: '~120 g carne + 3/4 taza arroz + 2 mandarinas + yogurt'
+    },
+    exercise: 'remo'
+  },
+  {
+    name: 'Martes', wheyDay: true,
+    almuerzo: {
+      title: 'Lomo liso a la plancha con pasta sin gluten',
+      desc: 'Ensalada de rucula y zanahoria rallada. Alinar con aceite de oliva.',
+      p: '1/2 scoop whey + yogurt (almuerzo rapido)',
+      g: '~120 g lomo + 1 1/2 taza pasta + 2 mandarinas + yogurt'
+    },
+    cena: {
+      title: 'Pollo al horno con papas chicas',
+      desc: 'Ensalada de berros, tomate y pepino.',
+      p: '~120 g pollo + 1 papa chica + 1 taza arandanos + 2 mandarinas + zanahoria + 1/2 palta + yogurt',
+      g: '~120 g pollo + 1 papa chica + 1 platano + yogurt'
+    },
+    exercise: 'sentadillas'
+  },
+  {
+    name: 'Miercoles', wheyDay: false,
+    almuerzo: {
+      title: 'Posta rosada con arroz basmati',
+      desc: 'Ensalada de repollo y zanahoria rallada. Alinar con aceite de oliva.',
+      p: '~80 g posta + 3/4 taza arroz + 2 mandarinas + yogurt',
+      g: '~120 g posta + 1 1/2 taza arroz + 1 platano + yogurt'
+    },
+    cena: {
+      title: 'Pollo salteado con cebolla, pimenton y zapallo italiano',
+      desc: '',
+      p: '~80 g pollo + 3/4 taza pasta sin gluten + 1 platano + yogurt',
+      g: '~120 g pollo + 3/4 taza pasta sin gluten + 10 uvas + yogurt'
+    },
+    exercise: 'remo'
+  },
+  {
+    name: 'Jueves', wheyDay: false,
+    almuerzo: {
+      title: 'Pollo ganso con quinoa',
+      desc: 'Ensalada de lechuga, pepino y apio. Alinar con aceite de oliva.',
+      p: '~80 g pollo ganso + 3/4 taza quinoa + 1 taza frutillas + yogurt',
+      g: '~120 g pollo ganso + 1 1/2 taza quinoa + 10 uvas + yogurt'
+    },
+    cena: {
+      title: 'Carne molida con zapallo italiano y cebolla',
+      desc: '',
+      p: '~80 g carne + 3/4 taza arroz + 1 platano + yogurt',
+      g: '~120 g carne + 3/4 taza arroz + 2 mandarinas + yogurt'
+    },
+    exercise: 'sentadillas'
+  },
+  {
+    name: 'Viernes', wheyDay: false,
+    almuerzo: {
+      title: 'Filete a la plancha con papas',
+      desc: 'Ensalada de rucula, pimenton y tomate. Alinar con aceite de oliva.',
+      p: '~80 g filete + 1 papa chica + 2 mandarinas + yogurt',
+      g: '~120 g filete + 2 papas chicas + 1 platano + yogurt'
+    },
+    cena: {
+      title: 'Pollo a la plancha con quinoa y espinaca salteada con champinones',
+      desc: '',
+      p: '~80 g pollo + 3/4 taza quinoa + 1 taza frambuesas + yogurt',
+      g: '~120 g pollo + 3/4 taza quinoa + 2 mandarinas + yogurt'
+    },
+    exercise: 'remo'
+  },
+  {
+    name: 'Sabado', wheyDay: false,
+    almuerzo: {
+      title: 'Posta negra con pasta sin gluten',
+      desc: 'Ensalada de lechuga, tomate y pepino. Alinar con aceite de oliva.',
+      p: '~80 g posta + 3/4 taza pasta + 1 platano + yogurt',
+      g: '~120 g posta + 1 1/2 taza pasta + 2 mandarinas + yogurt'
+    },
+    cena: {
+      title: 'Carne molida tartaro con papas y ensalada de rucula y zanahoria',
+      desc: '',
+      p: '~80 g carne + 1 papa chica + 1 taza arandanos + yogurt',
+      g: '~120 g carne + 1 papa chica + 10 uvas + yogurt'
+    },
+    exercise: 'descanso'
+  },
+  {
+    name: 'Domingo', wheyDay: false,
+    almuerzo: {
+      title: 'Pollo al horno con arroz basmati',
+      desc: 'Ensalada de berros, tomate y pepino. Alinar con aceite de oliva.',
+      p: '~80 g pollo + 3/4 taza arroz + 1 taza frutillas + yogurt',
+      g: '~120 g pollo + 1 1/2 taza arroz + 10 uvas + yogurt'
+    },
+    cena: {
+      title: 'Lomo liso con pasta sin gluten y verduras salteadas',
+      desc: 'Verduras: zapallo italiano, pimenton y cebolla.',
+      p: '~80 g lomo + 3/4 taza pasta + 1 platano + yogurt',
+      g: '~120 g lomo + 3/4 taza pasta + 2 mandarinas + yogurt'
+    },
+    exercise: 'descanso'
+  }
+];
+
+var remoPhases = [
+  [
+    { name: 'Calentamiento', duration: '5 min', detail: 'Remo suave, soltar el cuerpo' },
+    { name: 'Bloque principal', duration: '20 min', detail: 'Remo continuo, ritmo comodo (18-20 paladas/min). Espalda recta, empujar con piernas primero' },
+    { name: 'Vuelta a la calma', duration: '5 min', detail: 'Remo suave + estiramientos de espalda, hombros y piernas' }
+  ],
+  [
+    { name: 'Calentamiento', duration: '5 min', detail: 'Remo suave progresivo' },
+    { name: 'Bloque principal', duration: '20 min', detail: 'Remo moderado (20-22 pal/min). Incluir 3 piques de 1 min a ritmo alto con 2 min de recuperacion' },
+    { name: 'Vuelta a la calma', duration: '5 min', detail: 'Remo suave + estiramientos' }
+  ],
+  [
+    { name: 'Calentamiento', duration: '5 min', detail: 'Remo suave progresivo' },
+    { name: 'Intervalos', duration: '20 min', detail: '2 min fuerte / 1 min suave. Repetir 6-7 rondas. En los fuertes, subir a 24-26 pal/min' },
+    { name: 'Vuelta a la calma', duration: '5 min', detail: 'Remo suave + estiramientos' }
+  ],
+  [
+    { name: 'Calentamiento', duration: '5 min', detail: 'Remo suave progresivo' },
+    { name: 'Intervalos', duration: '20 min', detail: '1 min al maximo / 1 min recuperacion. Repetir 10 rondas. Mantener intensidad pareja' },
+    { name: 'Vuelta a la calma', duration: '5 min', detail: 'Remo suave + estiramientos' }
+  ]
+];
+
+var sentadillasPhases = [
+  [
+    { name: 'Calentamiento', duration: '5 min', detail: 'Movilidad articular: rotaciones de tobillo, rodilla y cadera' },
+    { name: 'Sentadilla al aire', duration: '3 x 10 reps', detail: 'Pies al ancho de hombros, muslo paralelo al suelo. Descanso 60 seg' },
+    { name: 'Estocadas', duration: '3 x 8 c/pierna', detail: 'Paso largo, rodilla trasera casi toca el suelo. Descanso 60 seg' },
+    { name: 'Sentadilla isometrica', duration: '3 x 20 seg', detail: 'Wall sit: espalda contra la pared, muslos paralelos. Descanso 60 seg' },
+    { name: 'Estiramientos', duration: '5 min', detail: 'Cuadriceps, isquiotibiales, gluteos, pantorrillas' }
+  ],
+  [
+    { name: 'Calentamiento', duration: '5 min', detail: 'Movilidad articular + sentadillas suaves' },
+    { name: 'Sentadilla al aire', duration: '4 x 12 reps', detail: 'Controlar bajada (2 seg abajo, 1 seg arriba). Descanso 45 seg' },
+    { name: 'Estocadas', duration: '3 x 10 c/pierna', detail: 'Alternar piernas. Descanso 45 seg' },
+    { name: 'Sentadilla sumo', duration: '3 x 12 reps', detail: 'Pies mas abiertos, puntas afuera. Descanso 45 seg' },
+    { name: 'Sentadilla isometrica', duration: '3 x 30 seg', detail: 'Wall sit. Descanso 45 seg' },
+    { name: 'Estiramientos', duration: '5 min', detail: 'Cuadriceps, isquiotibiales, gluteos, pantorrillas' }
+  ],
+  [
+    { name: 'Calentamiento', duration: '5 min', detail: 'Movilidad articular + sentadillas suaves' },
+    { name: 'Sentadilla al aire', duration: '4 x 15 reps', detail: 'Ritmo controlado. Descanso 30 seg' },
+    { name: 'Estocadas', duration: '4 x 12 c/pierna', detail: 'Alternar piernas. Descanso 30 seg' },
+    { name: 'Sentadilla sumo', duration: '3 x 15 reps', detail: 'Descanso 30 seg' },
+    { name: 'Sentadilla isometrica', duration: '3 x 45 seg', detail: 'Wall sit. Descanso 30 seg' },
+    { name: 'Sentadilla con salto', duration: '3 x 8 reps', detail: 'Bajar y saltar. Aterrizar suave. Descanso 45 seg' },
+    { name: 'Estiramientos', duration: '5 min', detail: 'Cuadriceps, isquiotibiales, gluteos, pantorrillas' }
+  ],
+  [
+    { name: 'Calentamiento', duration: '5 min', detail: 'Movilidad articular + sentadillas suaves' },
+    { name: 'Sentadilla al aire', duration: '4 x 20 reps', detail: 'Ritmo continuo. Descanso 30 seg' },
+    { name: 'Estocadas', duration: '4 x 15 c/pierna', detail: 'Alternar piernas. Descanso 30 seg' },
+    { name: 'Sentadilla sumo', duration: '4 x 15 reps', detail: 'Descanso 30 seg' },
+    { name: 'Sentadilla isometrica', duration: '3 x 60 seg', detail: 'Wall sit. Descanso 30 seg' },
+    { name: 'Sentadilla con salto', duration: '4 x 10 reps', detail: 'Bajar y saltar. Aterrizar suave. Descanso 45 seg' },
+    { name: 'Estiramientos', duration: '5 min', detail: 'Cuadriceps, isquiotibiales, gluteos, pantorrillas' }
+  ]
+];
+
+var currentDay = autoDetect.tabIndex;
+var currentPhase = autoDetect.phase;
+
+function render() {
+  var day = days[currentDay];
+  var el = document.getElementById('content');
+  var html = '';
+
+  var desayunoP = day.wheyDay
+    ? '4 huevos + 3/4 taza carbohidrato + fruta + grasa + yogurt'
+    : '4 huevos + fruta + grasa + yogurt';
+  var desayunoNote = day.wheyDay
+    ? '<div class="card-note">Lun/Mar: Pamela agrega carbohidrato al desayuno (compensa almuerzo rapido)</div>'
+    : '';
+
+  html += '<div class="card">' +
+    '<div class="card-label">DESAYUNO</div>' +
+    '<div class="card-title">4 huevos revueltos + yogurt + fruta</div>' +
+    '<div class="card-desc">Fijo todos los dias. Elegir fruta y grasa.</div>' +
+    '<div class="portions">' +
+    '<div class="portion"><span class="portion-name">P</span> ' + desayunoP + '</div>' +
+    '<div class="portion"><span class="portion-name">G</span> 4 huevos + 3/4 taza carbohidrato + fruta + grasa + yogurt</div>' +
+    '</div>' + desayunoNote + '</div>';
+
+  html += '<div class="card">' +
+    '<div class="card-label">ALMUERZO</div>' +
+    '<div class="card-title">' + day.almuerzo.title + '</div>' +
+    (day.almuerzo.desc ? '<div class="card-desc">' + day.almuerzo.desc + '</div>' : '') +
+    '<div class="portions">' +
+    '<div class="portion"><span class="portion-name">P</span> ' + day.almuerzo.p + '</div>' +
+    '<div class="portion"><span class="portion-name">G</span> ' + day.almuerzo.g + '</div>' +
+    '</div></div>';
+
+  html += '<div class="card">' +
+    '<div class="card-label">CENA</div>' +
+    '<div class="card-title">' + day.cena.title + '</div>' +
+    (day.cena.desc ? '<div class="card-desc">' + day.cena.desc + '</div>' : '') +
+    '<div class="portions">' +
+    '<div class="portion"><span class="portion-name">P</span> ' + day.cena.p + '</div>' +
+    '<div class="portion"><span class="portion-name">G</span> ' + day.cena.g + '</div>' +
+    '</div></div>';
+
+  if (day.exercise === 'descanso') {
+    html += '<div class="card rest-card">' +
+      '<div class="card-label">EJERCICIO · 20:00</div>' +
+      '<div class="card-title">Dia de descanso</div></div>';
+  } else {
+    var isRemo = day.exercise === 'remo';
+    var steps = isRemo ? remoPhases[currentPhase] : sentadillasPhases[currentPhase];
+    var typeName = isRemo ? 'Remadora' : 'Sentadillas + fuerza';
+    var stepsHtml = '';
+    for (var i = 0; i < steps.length; i++) {
+      stepsHtml += '<div class="step">' +
+        '<div class="step-number">' + (i + 1) + '</div>' +
+        '<div class="step-content">' +
+        '<div class="step-header">' +
+        '<span class="step-name">' + steps[i].name + '</span>' +
+        '<span class="step-duration">' + steps[i].duration + '</span>' +
+        '</div>' +
+        '<div class="step-detail">' + steps[i].detail + '</div>' +
+        '</div></div>';
+    }
+    html += '<div class="card card-exercise">' +
+      '<div class="card-label">EJERCICIO · 20:00</div>' +
+      '<div class="card-title">' + typeName + '</div>' +
+      '<div class="exercise-time">30 minutos · Fase ' + (currentPhase + 1) + '</div>' +
+      '<div class="steps">' + stepsHtml + '</div></div>';
+  }
+
+  el.innerHTML = html;
+}
+
+document.querySelectorAll('.day-tab').forEach(function(btn) {
+  var idx = parseInt(btn.dataset.day);
+  btn.classList.remove('active');
+  if (idx === currentDay) {
+    btn.classList.add('active');
+    btn.classList.add('today');
+  }
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.day-tab').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentDay = parseInt(btn.dataset.day);
+    render();
+  });
+});
+
+document.querySelectorAll('.phase-btn').forEach(function(btn) {
+  var idx = parseInt(btn.dataset.phase);
+  btn.classList.remove('active');
+  if (idx === currentPhase) btn.classList.add('active');
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.phase-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    currentPhase = parseInt(btn.dataset.phase);
+    render();
+  });
+});
+
+render();
+</script>
+
+</body>
+</html>
